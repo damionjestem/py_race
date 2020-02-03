@@ -19,37 +19,45 @@ screen_h = 40*b
 
 screen = pygame.display.set_mode((screen_w, screen_h))
 
-
-class Position:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-
 POS_X = {'l': ((screen_w - 10*b) / 2) - 20 * b,
          'm': (screen_w-10*b)/2,
          'r': ((screen_w-10*b)/2) + 20*b
          }
 
-POS_Y = {'u3': ((screen_h - 5*b) / 2) - 10 * b,
-         'u2': ((screen_h - 5*b) / 2) - 5 * b,
+POS_Y = {'u3': ((screen_h - 5*b) / 2) - 20 * b,
+         'u2': ((screen_h - 5*b) / 2) - 10 * b,
          'u1': (screen_h - 5*b) / 2,
-         'm': ((screen_h - 5 * b) / 2) + 5 * b,
-         'd': ((screen_h - 5*b) / 2) + 10 * b
+         'm': ((screen_h - 5 * b) / 2) + 10 * b,
+         'd': ((screen_h - 5*b) / 2) + 20 * b
          }
+
+
+class Position:
+    def __init__(self, x=POS_X['m'], y=POS_Y['m']):
+        self.x = x
+        self.y = y
+
+    def set_position(self, x, y):
+        self.x = x
+        self.y = y
 
 
 class Figure:
     width = 10 * b
     height = 5 * b
+    pos = Position()
 
     def __init__(self, init_x, init_y):
         fig = pygame.Surface((self.width, self.height))
-        fig.fill(COLOR['blue'])
+        self.pos = Position(init_x, init_y)
+        fig.fill(COLOR['white'])
         screen.blit(fig, (init_x, init_y))
 
+    def set_position(self, position):
+        self.pos.set_position(position.x, position.y)
 
-player = Figure(POS_X['m'], POS_Y['u3'])
+
+player = Figure(POS_X['m'], POS_Y['m'])
 
 running = True
 while running:
